@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Part2Lesson1.Helpers
 {
-    internal class ReportHelper
+    public class ReportHelper
     {
     }
 }

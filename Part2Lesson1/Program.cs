@@ -49,5 +49,5 @@ for (int i = 0; i < 11; i++)
 }
 
 LessonScheduller lessonScheduller = new LessonScheduller();
-List<LessonRoom> lessonRooms = lessonScheduller.SchedulleLessons(lessonController, roomController);
-List<LessonTeacher> lessonTeachers = lessonScheduller.SchedulleTeachers(lessonController, teacherController);
+//List<LessonRoom> lessonRooms = lessonScheduller.SchedulleLessons(lessonController, roomController);
+//List<LessonTeacher> lessonTeachers = lessonScheduller.SchedulleTeachers(lessonController, teacherController);
