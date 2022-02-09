@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Part2Lesson1
 {
-    abstract public class Person : Entity
+    public abstract class Person : Entity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Part2Lesson1.Entitys
+namespace Part2Lesson1.Entities
 {
     public class Price : Entity
     {
@@ -19,10 +19,10 @@ namespace Part2Lesson1.Entitys
             CurrentPrice = 0.00;
         }
 
-        public Price(int _class, int category, double currentPrice)
+        public Price(int _class, Category category, double currentPrice)
         {
             Class = _class;
-            Category = (Category)category;
+            Category = category;
             CurrentPrice = currentPrice;
         }
     }

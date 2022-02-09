@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Part2Lesson1.Entitys;
+using Part2Lesson1.Entities;
 
 namespace Part2Lesson1.Controllers
 {

@@ -1,5 +1,5 @@
 ﻿using Part2Lesson1.Controllers;
-using Part2Lesson1.Entitys;
+using Part2Lesson1.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Part2Lesson1.Entitys
+namespace Part2Lesson1.Entities
 {
     public class Lesson : Entity
     {
