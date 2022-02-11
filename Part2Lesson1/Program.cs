@@ -1,5 +1,5 @@
 ﻿using Part2Lesson1.Controllers;
-using Part2Lesson1.Entitys;
+using Part2Lesson1.Entities;
 using Part2Lesson1.Helpers;
 
 LessonController lessonController = new LessonController();
@@ -13,22 +13,21 @@ for (int i = 0; i < 10; i++)
 {
     Lesson lesson = new Lesson();
     lesson.TargetClass = rand.Next(1, 11);
-    lesson.MinimumRequiredCategory = (Category)rand.Next(1, 4);
+    lesson.MinimumRequiredCategory = (Category)rand.Next(1, 5);
     lesson.Title = "Math" + rand.Next(1, 11);
     lessonController.AddLesson(lesson);
 
-    Room room = new Room();
-    room.Number = i + 1;
-    room.Floor = 1;
+    Room room = new Room(rand.Next(1, 5));
     roomController.AddRoom(room);
 
     for (int j = 0; j < 2; j++)
     {
         Teacher teacher = new Teacher();
-        teacher.Category = (Category)rand.Next(1, 4);
+        teacher.Category = (Category)rand.Next(1, 5);
         teacher.LastName = "LastNameTeacher" + rand.Next(20, 100);
         teacher.FirstName = "FirstNameTeacher" + rand.Next(20, 100);
         teacherController.AddTeacher(teacher);
+        teacherController.LinkTeacherToLesson(lesson, teacher);
     }
 
     Student student = new Student();
@@ -50,6 +49,47 @@ for (int i = 0; i < 11; i++)
     }
 }
 
+List<Room> roomList = roomController.GetRooms().ToList();
+
+for (int i = 0;i < roomList.Count; i++)
+{
+    roomList.ElementAt(i).Floor = 99;
+}
+
+List<Room> roomList2 = roomController.GetRooms().ToList();
+
+
+List<LessonTeacher> neddsd = teacherController.GetLinkedPairsOfTeacherAndLesson().ToList();
+
+for (int i = 0; i < neddsd.Count(); i++)
+{
+    neddsd.ElementAt(i).TeacherId = Guid.Empty;
+}
+
+List<LessonTeacher> neddsd2 = teacherController.GetLinkedPairsOfTeacherAndLesson().ToList();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+List<LessonRoom> lessonRooms = lessonController.GetLinkedPairsOfLessonAndRoom().ToList();
+
+lessonRooms.Add(new LessonRoom(Guid.NewGuid(), Guid.NewGuid()));
+
+lessonRooms = lessonController.GetLinkedPairsOfLessonAndRoom().ToList();
+
+
 LessonScheduller lessonScheduller = new LessonScheduller();
-List<LessonRoom> lessonRooms = lessonScheduller.SchedulleLessons(lessonController, roomController);
-List<LessonTeacher> lessonTeachers = lessonScheduller.SchedulleTeachers(lessonController, teacherController);
+//List<LessonRoom> lessonRooms = lessonScheduller.SchedulleLessons(lessonController, roomController);
+//List<LessonTeacher> lessonTeachers = lessonScheduller.SchedulleTeachers(lessonController, teacherController);

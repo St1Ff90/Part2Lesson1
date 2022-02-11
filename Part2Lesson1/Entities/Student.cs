@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Part2Lesson1.Entitys
+namespace Part2Lesson1.Entities
 {
-    public class Student : Person
+    public class Student : Person, ICloneable
     {
         public int Class { get; set; }
 
@@ -20,6 +20,11 @@ namespace Part2Lesson1.Entitys
             FirstName = student.FirstName;
             LastName = student.LastName;
             Class = student.Class;
+        }
+
+        public object Clone()
+        {
+            return new Student(this);
         }
     }
 }

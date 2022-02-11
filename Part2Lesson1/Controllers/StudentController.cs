@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Part2Lesson1.Entitys;
+using Part2Lesson1.Entities;
 
 namespace Part2Lesson1.Controllers
 {
@@ -36,7 +36,7 @@ namespace Part2Lesson1.Controllers
 
         public IEnumerable<Student> GetListOfStudentsWhoCanVisitLesson(int classnum)
         {
-            return _students.Where(x => x.Class == classnum);
+            return _students.Where(x => x.Class == classnum).Select(x => x.Clone() as Student);
         }
     }
 }

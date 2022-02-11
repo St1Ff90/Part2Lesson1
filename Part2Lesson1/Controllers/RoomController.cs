@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Part2Lesson1.Entitys;
+using Part2Lesson1.Entities;
 
 namespace Part2Lesson1.Controllers
 {
@@ -20,7 +20,7 @@ namespace Part2Lesson1.Controllers
         {
             bool result = false;
 
-            if (room != null && room.Number > 0 && room.Floor >= 0 && room.Floor < 5)
+            if (room != null && room.Floor >= 0 && room.Floor < 5)
             {
                 result = true;
                 _rooms.Add(room);
@@ -35,7 +35,7 @@ namespace Part2Lesson1.Controllers
 
         public IEnumerable<Room> GetRooms()
         {
-            return _rooms;
+            return _rooms.Select(x => x.Clone() as Room);
         }
     }
 }

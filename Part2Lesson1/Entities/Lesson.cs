@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Part2Lesson1.Entitys
+namespace Part2Lesson1.Entities
 {
-    public class Lesson : Entity
+    public class Lesson : Entity, ICloneable
     {
         public string Title { get; set; }
         public Category MinimumRequiredCategory { get; set; }
@@ -24,6 +24,11 @@ namespace Part2Lesson1.Entitys
             Title = lesson.Title;
             MinimumRequiredCategory = lesson.MinimumRequiredCategory;
             TargetClass = lesson.TargetClass;
+        }
+
+        public object Clone()
+        {
+            return new Lesson(this);
         }
     }
 }
