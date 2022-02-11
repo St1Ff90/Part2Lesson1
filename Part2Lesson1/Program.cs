@@ -27,6 +27,7 @@ for (int i = 0; i < 10; i++)
         teacher.LastName = "LastNameTeacher" + rand.Next(20, 100);
         teacher.FirstName = "FirstNameTeacher" + rand.Next(20, 100);
         teacherController.AddTeacher(teacher);
+        teacherController.LinkTeacherToLesson(lesson, teacher);
     }
 
     Student student = new Student();
@@ -47,6 +48,47 @@ for (int i = 0; i < 11; i++)
         priceList.Add(price);
     }
 }
+
+List<Room> roomList = roomController.GetRooms().ToList();
+
+for (int i = 0;i < roomList.Count; i++)
+{
+    roomList.ElementAt(i).Floor = 99;
+}
+
+List<Room> roomList2 = roomController.GetRooms().ToList();
+
+
+List<LessonTeacher> neddsd = teacherController.GetLinkedPairsOfTeacherAndLesson().ToList();
+
+for (int i = 0; i < neddsd.Count(); i++)
+{
+    neddsd.ElementAt(i).TeacherId = Guid.Empty;
+}
+
+List<LessonTeacher> neddsd2 = teacherController.GetLinkedPairsOfTeacherAndLesson().ToList();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+List<LessonRoom> lessonRooms = lessonController.GetLinkedPairsOfLessonAndRoom().ToList();
+
+lessonRooms.Add(new LessonRoom(Guid.NewGuid(), Guid.NewGuid()));
+
+lessonRooms = lessonController.GetLinkedPairsOfLessonAndRoom().ToList();
+
 
 LessonScheduller lessonScheduller = new LessonScheduller();
 //List<LessonRoom> lessonRooms = lessonScheduller.SchedulleLessons(lessonController, roomController);

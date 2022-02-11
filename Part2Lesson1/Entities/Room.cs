@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Part2Lesson1.Entities
 {
-    public class Room : Entity
+    public class Room : Entity, ICloneable
     {
         public static Dictionary<int, int> FloorLastNum { get; private set; }
         public int Floor { get; set; }
@@ -35,6 +35,17 @@ namespace Part2Lesson1.Entities
             FloorLastNum[flor] += 1;
             Number = FloorLastNum[flor];
             Floor = flor;
+        }
+
+        private Room(int floor, int number)
+        {
+            Floor = floor;
+            Number = number;
+        }
+
+        public object Clone()
+        {
+            return new Room(Floor, Number);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Part2Lesson1.Controllers
         {
             bool result = false;
 
-            if (teacher != null && !string.IsNullOrEmpty(teacher.FirstName) && !string.IsNullOrEmpty(teacher.LastName) && (teacher.LastName.Length + teacher.FirstName.Length) > 3)
+            if (IsTeacherValid(teacher))
             {
                 result = true;
                 Teacher copy = new Teacher(teacher);
@@ -36,9 +36,21 @@ namespace Part2Lesson1.Controllers
             return result;
         }
 
+        private bool IsTeacherValid(Teacher teacher)
+        {
+            bool result = false;
+
+            if (teacher != null && !string.IsNullOrEmpty(teacher.FirstName) && !string.IsNullOrEmpty(teacher.LastName) && (teacher.LastName.Length + teacher.FirstName.Length) > 3)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
         public bool LinkTeacherToLesson(Lesson lesson, Teacher teacher)
         {
-            bool Result = false;
+            bool result = false;
 
             if (lesson == null || teacher == null)
             {
@@ -50,46 +62,40 @@ namespace Part2Lesson1.Controllers
 
                 if (_lessonTeachers.Contains(lessonTeacher))
                 {
-                    throw new ArgumentException("Both are already linked!");
+                    result = true;
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                     _lessonTeachers.Add(lessonTeacher);
                 }
             }
 
-            return Result;
+            return result;
         }
 
         public IEnumerable<Teacher> GetListOfTeachersWhoCanDriveLesson(Category category)
         {
-            return _teachers.Where(x => x.Category >= category);
+            return _teachers.Where(x => x.Category >= category).Select(x => x.Clone() as Teacher);
         }
 
         public IEnumerable<LessonTeacher> GetLinkedPairsOfTeacherAndLesson()
         {
-            return _lessonTeachers;
+            return _lessonTeachers.Select(x => x.Clone() as LessonTeacher);
         }
 
-        public Guid GetLessonId(Teacher teacher)
+        public Guid GetLessonId(Guid teacherId)
         {
-            if (teacher != null)
+            if (_lessonTeachers.Any(x => x.TeacherId == teacherId))
             {
-                if (_lessonTeachers.Any(x => x.TeacherId == teacher.Id))
-                {
-                    return _lessonTeachers.FirstOrDefault(x => x.TeacherId == teacher.Id).LessonId;
-                }
-                else
-                {
-                    throw new AggregateException("Not found!");
-                }
+                return _lessonTeachers.First(x => x.TeacherId == teacherId).LessonId;
+            }
+            else
+            {
+                throw new AggregateException("Not found!");
             }
 
             throw new AggregateException("Null value of teacher!");
         }
-
-
-
     }
 }

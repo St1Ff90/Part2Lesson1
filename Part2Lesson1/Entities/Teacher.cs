@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Part2Lesson1.Entities
 {
-    public class Teacher : Person
+    public class Teacher : Person, ICloneable
     {
         public Category Category { get; set; }
 
@@ -20,6 +20,11 @@ namespace Part2Lesson1.Entities
             Category = teacher.Category;
             base.FirstName = teacher.FirstName;
             base.LastName = teacher.LastName;
+        }
+
+        public object Clone()
+        {
+            return new Teacher(this);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Part2Lesson1.Controllers
 
         public IEnumerable<Student> GetListOfStudentsWhoCanVisitLesson(int classnum)
         {
-            return _students.Where(x => x.Class == classnum);
+            return _students.Where(x => x.Class == classnum).Select(x => x.Clone() as Student);
         }
     }
 }

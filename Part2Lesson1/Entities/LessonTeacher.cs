@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Part2Lesson1.Entities
 {
-    public class LessonTeacher
+    public class LessonTeacher : ICloneable
     {
         public Guid LessonId { get; set; }
         public Guid TeacherId { get; set; }
@@ -15,6 +15,11 @@ namespace Part2Lesson1.Entities
         {
             LessonId = lessonId;
             TeacherId = teacherId;
+        }
+
+        public object Clone()
+        {
+            return new LessonTeacher(LessonId, TeacherId);
         }
     }
 }

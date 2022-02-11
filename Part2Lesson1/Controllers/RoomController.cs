@@ -35,7 +35,7 @@ namespace Part2Lesson1.Controllers
 
         public IEnumerable<Room> GetRooms()
         {
-            return _rooms;
+            return _rooms.Select(x => x.Clone() as Room);
         }
     }
 }

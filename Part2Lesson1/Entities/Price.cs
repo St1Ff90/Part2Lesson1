@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Part2Lesson1.Entities
 {
-    public class Price : Entity
+    public class Price : Entity, ICloneable
     {
         public int Class { get; set; }
         public Category Category { get; set; }
@@ -24,6 +24,11 @@ namespace Part2Lesson1.Entities
             Class = _class;
             Category = category;
             CurrentPrice = currentPrice;
+        }
+
+        public object Clone()
+        {
+            return new Price(Class, Category, CurrentPrice);
         }
     }
 }

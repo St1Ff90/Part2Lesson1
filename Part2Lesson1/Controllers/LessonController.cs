@@ -12,13 +12,14 @@ namespace Part2Lesson1.Controllers
         private List<Lesson> _lessons;
         private List<LessonRoom> _lessonRooms;
         private List<Price> _salaryList;
+        private static int _baseSalary = 1000;
 
         public LessonController()
         {
             _lessons = new List<Lesson>();
             _lessonRooms = new List<LessonRoom>();
             _salaryList = new List<Price>();
-            CalculateSalaryList(1000);
+            CalculateSalaryList(_baseSalary);
         }
 
         public bool AddLesson(Lesson lesson)
@@ -41,74 +42,69 @@ namespace Part2Lesson1.Controllers
 
         public bool LinkLessonToRoom(Lesson lesson, Room room)
         {
-            bool Result = false;
+            bool result = false;
 
             if (lesson == null || room == null)
             {
                 throw new ArgumentNullException("Obj is null!");
             }
+
+            LessonRoom lessonRoom = new LessonRoom(lesson.Id, room.Id);
+
+            if (_lessonRooms.Contains(lessonRoom))
+            {
+                result = true;
+            }
+            else if (_lessonRooms.Any(x => x.RoomId == lessonRoom.RoomId))
+            {
+                throw new ArgumentException("Room are already occupied!");
+            }
             else
             {
-                LessonRoom lessonRoom = new LessonRoom(lesson.Id, room.Id);
-
-                if (_lessonRooms.Contains(lessonRoom))
-                {
-                    throw new ArgumentException("Both are already linked!");
-                }
-                else if (_lessonRooms.Any(x => x.RoomId == lessonRoom.RoomId))
-                {
-                    throw new ArgumentException("Room are already occupied!");
-                }
-                else
-                {
-                    Result = true;
-                    _lessonRooms.Add(lessonRoom);
-                }
+                result = true;
+                _lessonRooms.Add(lessonRoom);
             }
 
-            return Result;
+            return result;
         }
 
         public IEnumerable<Lesson> GetListOfLessonsForTargetClass(int classnum)
         {
-            return _lessons.Where(x => x.TargetClass == classnum);
+            return _lessons.Where(x => x.TargetClass == classnum).Select(x => x.Clone() as Lesson);
         }
 
         public IEnumerable<Lesson> GetListOfLessonsForTargetCategory(Category category)
         {
-            return _lessons.Where(x => x.MinimumRequiredCategory >= category);
+            return _lessons.Where(x => x.MinimumRequiredCategory >= category).Select(x => x.Clone() as Lesson);
         }
 
         public IEnumerable<Lesson> GetLessons()
         {
-            return _lessons;
+            return _lessons.Select(x => x.Clone() as Lesson);
         }
 
         public IEnumerable<LessonRoom> GetLinkedPairsOfLessonAndRoom()
         {
-            return _lessonRooms;
+            return _lessonRooms.Select(x => x.Clone() as LessonRoom);
         }
 
-        public Guid GeRoomId(Lesson lesson)
+        public Guid GeRoomId(Guid lessonId)
         {
-            if (lesson != null)
+            if (_lessonRooms.Any(x => x.LessonId == lessonId))
             {
-                if (_lessonRooms.Any(x => x.LessonId == lesson.Id))
-                {
-                    return _lessonRooms.FirstOrDefault(x => x.LessonId == lesson.Id).RoomId;
-                }
-                else
-                {
-                    throw new AggregateException("Not found!");
-                }
+                return _lessonRooms.First(x => x.LessonId == lessonId).RoomId;
             }
 
-            throw new AggregateException("Null value of lesson!");
+            return Guid.Empty;
         }
 
-        public Lesson GetLesson(Guid id)
+        public Lesson GetLesson(Guid lessonId)
         {
-            return _lessons.FirstOrDefault(x => x.Id == id);
+            if (_lessons.Any(x => x.Id == lessonId))
+            {
+                return _lessons.First(x => x.Id == lessonId).Clone() as Lesson; ;
+            }
+            throw new Exception("Not found!");
         }
 
         public void CalculateSalaryList(double baseSalary)
@@ -128,7 +124,12 @@ namespace Part2Lesson1.Controllers
 
         public Price GetPriceForTeacherByLesson(Teacher teacher, Lesson lesson)
         {
-            return _salaryList.FirstOrDefault(x => x.Category == teacher.Category && x.Class == lesson.TargetClass);
+            if (_salaryList.Any(x => x.Category == teacher.Category && x.Class == lesson.TargetClass))
+            {
+                return _salaryList.First(x => x.Category == teacher.Category && x.Class == lesson.TargetClass).Clone() as Price;
+            }
+
+            throw new Exception("Price doen't exist!");
         }
     }
 }
